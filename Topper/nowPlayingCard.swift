@@ -15,6 +15,8 @@ class nowPlayingCard: UIViewController {
     @IBOutlet weak var artistNameLabel: UILabel!
     @IBOutlet weak var albumNameLabel: UILabel!
     
+    // This is a comment
+    
     init(albumArt: UIImage, trackName: String, artistName: String, albumName: String) {
         super.init(nibName: "nowPlayingCard", bundle: nil)
         self.albumArtImageView.image = albumArt
