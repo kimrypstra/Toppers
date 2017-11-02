@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13528" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13526"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="UpNextTableViewCell" customModule="Topper" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="75"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yA2-7v-BGd">
+                    <rect key="frame" x="5" y="2.5" width="70" height="70"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="yA2-7v-BGd" secondAttribute="height" multiplier="1:1" id="qPY-97-UsL"/>
+                    </constraints>
+                </imageView>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="goY-8J-5k6">
+                    <rect key="frame" x="91" y="9" width="268" height="57"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Song Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8h7-4l-31D">
+                            <rect key="frame" x="0.0" y="0.0" width="268" height="19"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Artist Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rol-oO-7sn">
+                            <rect key="frame" x="0.0" y="19" width="268" height="19"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Album Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qxp-mE-Mc4">
+                            <rect key="frame" x="0.0" y="38" width="268" height="19"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="8h7-4l-31D" firstAttribute="width" secondItem="goY-8J-5k6" secondAttribute="width" id="E9Y-RP-7Sj"/>
+                        <constraint firstItem="Rol-oO-7sn" firstAttribute="width" secondItem="goY-8J-5k6" secondAttribute="width" id="QgQ-nd-xCX"/>
+                        <constraint firstItem="qxp-mE-Mc4" firstAttribute="width" secondItem="goY-8J-5k6" secondAttribute="width" id="c1I-vS-CrI"/>
+                    </constraints>
+                </stackView>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="goY-8J-5k6" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="2Su-ht-EJ5"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="goY-8J-5k6" secondAttribute="bottom" constant="9" id="5jQ-8W-QPI"/>
+                <constraint firstItem="yA2-7v-BGd" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" constant="-5" id="7gh-xf-SLc"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="goY-8J-5k6" secondAttribute="trailing" constant="16" id="EgB-DW-1HS"/>
+                <constraint firstItem="yA2-7v-BGd" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="JDk-L5-TlN"/>
+                <constraint firstItem="yA2-7v-BGd" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="5" id="Vrd-B2-1tG"/>
+                <constraint firstItem="goY-8J-5k6" firstAttribute="leading" secondItem="yA2-7v-BGd" secondAttribute="trailing" constant="16" id="tdm-5U-cr6"/>
+                <constraint firstItem="goY-8J-5k6" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="9" id="uM4-Eb-Aph"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="albumArt" destination="yA2-7v-BGd" id="NKB-dd-phc"/>
+                <outlet property="albumName" destination="qxp-mE-Mc4" id="JzG-Aw-4wZ"/>
+                <outlet property="artistName" destination="Rol-oO-7sn" id="W4g-dX-Ls3"/>
+                <outlet property="songTitle" destination="8h7-4l-31D" id="nEf-GF-0LJ"/>
+            </connections>
+            <point key="canvasLocation" x="24.5" y="-244.5"/>
+        </view>
+    </objects>
+</document>

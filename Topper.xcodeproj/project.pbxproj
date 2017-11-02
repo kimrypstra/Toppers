@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		212B99881F93246700794EF9 /* nowPlayingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212B99861F93246700794EF9 /* nowPlayingCard.swift */; };
-		212B99891F93246700794EF9 /* nowPlayingCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 212B99871F93246700794EF9 /* nowPlayingCard.xib */; };
+		212B99881F93246700794EF9 /* NowPlayingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212B99861F93246700794EF9 /* NowPlayingCard.swift */; };
+		212B99891F93246700794EF9 /* NowPlayingCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 212B99871F93246700794EF9 /* NowPlayingCard.xib */; };
 		212D16C81F7FE815003E3B42 /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212D16C71F7FE815003E3B42 /* Album.swift */; };
+		215F78101F99892D00CD2FA8 /* UpNextTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 215F780F1F99892D00CD2FA8 /* UpNextTableViewCell.xib */; };
+		215F78121F998A6300CD2FA8 /* UpNextTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215F78111F998A6300CD2FA8 /* UpNextTableViewCell.swift */; };
 		217081AC1F6E7EDA00DBE94C /* UpNextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217081AB1F6E7EDA00DBE94C /* UpNextViewController.swift */; };
 		217081AE1F6E890800DBE94C /* UpNextDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217081AD1F6E890800DBE94C /* UpNextDelegate.swift */; };
 		21928AC91F431443003140B7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21928AC81F431443003140B7 /* AppDelegate.swift */; };
@@ -18,6 +20,7 @@
 		21928AD01F431443003140B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21928ACF1F431443003140B7 /* Assets.xcassets */; };
 		21928AD31F431443003140B7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 21928AD11F431443003140B7 /* LaunchScreen.storyboard */; };
 		21978DD61F6ABD5A009AD62C /* YLColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21978DD51F6ABD5A009AD62C /* YLColor.swift */; };
+		21C244DE1F95988B0006CC18 /* NowPlayingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C244DD1F95988B0006CC18 /* NowPlayingDelegate.swift */; };
 		21C48A771F550601004F888B /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C48A761F550601004F888B /* StoreManager.swift */; };
 		21C48A791F5598DC004F888B /* TopperTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C48A781F5598DC004F888B /* TopperTextField.swift */; };
 		21D3A5691F6E5E210078A7D2 /* SearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D3A5681F6E5E210078A7D2 /* SearchManager.swift */; };
@@ -26,9 +29,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		212B99861F93246700794EF9 /* nowPlayingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nowPlayingCard.swift; sourceTree = "<group>"; };
-		212B99871F93246700794EF9 /* nowPlayingCard.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = nowPlayingCard.xib; sourceTree = "<group>"; };
+		212B99861F93246700794EF9 /* NowPlayingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingCard.swift; sourceTree = "<group>"; };
+		212B99871F93246700794EF9 /* NowPlayingCard.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NowPlayingCard.xib; sourceTree = "<group>"; };
 		212D16C71F7FE815003E3B42 /* Album.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
+		215F780F1F99892D00CD2FA8 /* UpNextTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UpNextTableViewCell.xib; sourceTree = "<group>"; };
+		215F78111F998A6300CD2FA8 /* UpNextTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpNextTableViewCell.swift; sourceTree = "<group>"; };
 		217081AB1F6E7EDA00DBE94C /* UpNextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpNextViewController.swift; sourceTree = "<group>"; };
 		217081AD1F6E890800DBE94C /* UpNextDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpNextDelegate.swift; sourceTree = "<group>"; };
 		21928AC51F431443003140B7 /* Topper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Topper.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -39,6 +44,7 @@
 		21928AD21F431443003140B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		21928AD41F431443003140B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		21978DD51F6ABD5A009AD62C /* YLColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YLColor.swift; sourceTree = "<group>"; };
+		21C244DD1F95988B0006CC18 /* NowPlayingDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingDelegate.swift; sourceTree = "<group>"; };
 		21C48A761F550601004F888B /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
 		21C48A781F5598DC004F888B /* TopperTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopperTextField.swift; sourceTree = "<group>"; };
 		21D3A5681F6E5E210078A7D2 /* SearchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchManager.swift; sourceTree = "<group>"; };
@@ -79,16 +85,19 @@
 				21928AC81F431443003140B7 /* AppDelegate.swift */,
 				21928ACA1F431443003140B7 /* ViewController.swift */,
 				21F52AA41F57A2E700C736EE /* PlayerViewController.swift */,
-				212B99861F93246700794EF9 /* nowPlayingCard.swift */,
-				212B99871F93246700794EF9 /* nowPlayingCard.xib */,
+				21928ACC1F431443003140B7 /* Main.storyboard */,
+				212B99861F93246700794EF9 /* NowPlayingCard.swift */,
+				212B99871F93246700794EF9 /* NowPlayingCard.xib */,
+				215F78111F998A6300CD2FA8 /* UpNextTableViewCell.swift */,
+				215F780F1F99892D00CD2FA8 /* UpNextTableViewCell.xib */,
 				21D3A5681F6E5E210078A7D2 /* SearchManager.swift */,
 				212D16C71F7FE815003E3B42 /* Album.swift */,
 				21F52AA21F579D8600C736EE /* Song.swift */,
 				21C48A781F5598DC004F888B /* TopperTextField.swift */,
 				21978DD51F6ABD5A009AD62C /* YLColor.swift */,
-				21928ACC1F431443003140B7 /* Main.storyboard */,
 				217081AB1F6E7EDA00DBE94C /* UpNextViewController.swift */,
 				217081AD1F6E890800DBE94C /* UpNextDelegate.swift */,
+				21C244DD1F95988B0006CC18 /* NowPlayingDelegate.swift */,
 				21C48A761F550601004F888B /* StoreManager.swift */,
 				21928ACF1F431443003140B7 /* Assets.xcassets */,
 				21928AD11F431443003140B7 /* LaunchScreen.storyboard */,
@@ -163,7 +172,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				21928AD31F431443003140B7 /* LaunchScreen.storyboard in Resources */,
-				212B99891F93246700794EF9 /* nowPlayingCard.xib in Resources */,
+				215F78101F99892D00CD2FA8 /* UpNextTableViewCell.xib in Resources */,
+				212B99891F93246700794EF9 /* NowPlayingCard.xib in Resources */,
 				21928AD01F431443003140B7 /* Assets.xcassets in Resources */,
 				21928ACE1F431443003140B7 /* Main.storyboard in Resources */,
 			);
@@ -177,6 +187,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				21C48A771F550601004F888B /* StoreManager.swift in Sources */,
+				21C244DE1F95988B0006CC18 /* NowPlayingDelegate.swift in Sources */,
 				21928ACB1F431443003140B7 /* ViewController.swift in Sources */,
 				21928AC91F431443003140B7 /* AppDelegate.swift in Sources */,
 				217081AC1F6E7EDA00DBE94C /* UpNextViewController.swift in Sources */,
@@ -185,9 +196,10 @@
 				21978DD61F6ABD5A009AD62C /* YLColor.swift in Sources */,
 				21F52AA31F579D8600C736EE /* Song.swift in Sources */,
 				212D16C81F7FE815003E3B42 /* Album.swift in Sources */,
-				212B99881F93246700794EF9 /* nowPlayingCard.swift in Sources */,
+				212B99881F93246700794EF9 /* NowPlayingCard.swift in Sources */,
 				21F52AA51F57A2E700C736EE /* PlayerViewController.swift in Sources */,
 				21D3A5691F6E5E210078A7D2 /* SearchManager.swift in Sources */,
+				215F78121F998A6300CD2FA8 /* UpNextTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

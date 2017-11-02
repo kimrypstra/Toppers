@@ -9,9 +9,10 @@
 import UIKit
 import StoreKit
 
-class StoreManager: NSObject {
+class StoreManager: NSObject, URLSessionDelegate {
     
     private var storeID: String!
+    private var storeCode: String!
     
     func confirmPlaybackCapability(completion: @escaping (Bool) -> ()) {
         print("Confirming playback capability...")
@@ -71,12 +72,54 @@ class StoreManager: NSObject {
                     
                 }
                 
+                print("Step 4: Checking genres")
+                secondGroup.enter()
+                if self.genreCheck() == false {
+                    // Genres are not preset
+                    print("Genres not present. Getting genres...")
+                    SearchManager(storeManager: self).getGenreIDs(completion: { (genres) in
+                        if genres != nil && genres?.count != 0 {
+                            let defaults = UserDefaults()
+                            defaults.set(genres, forKey: "genres")
+                            secondGroup.leave()
+                        } else {
+                            secondGroup.leave()
+                        }
+                        
+                    })
+                } else {
+                    print("Genres present")
+                    secondGroup.leave()
+                }
+                
                 secondGroup.notify(queue: DispatchQueue.main) {
+                    guard let locale = Locale.current.regionCode else {
+                        print("Error getting locale details")
+                        return
+                    }
+                    self.storeCode = locale.lowercased()
+                    if var settings = UserDefaults().value(forKey: "settings") as? [String: Any] {
+                        settings["storefrontCode"] = String(describing: self.storeCode!)
+                        UserDefaults().set(settings, forKey: "settings")
+                    } else {
+                        let settings: [String: Any] = ["storefrontCode" : String(describing: self.storeCode!)]
+                        UserDefaults().set(settings, forKey: "settings")
+                    }
+                    print("Locale: \(locale)")
+
                     completion(returnValue)
+                    
                 }
             })
-            
-            
+        }
+    }
+    
+    private func genreCheck() -> Bool {
+        let defaults = UserDefaults()
+        if defaults.value(forKey: "genres") != nil {
+            return true
+        } else {
+            return false
         }
     }
     
@@ -101,6 +144,17 @@ class StoreManager: NSObject {
                 return false
             }
             self.storeID = storefrontID
+            
+            guard let storefrontCode = settings["storefrontCode"] as? String else {
+                print("storefrontID key not found")
+                return false
+            }
+            self.storeCode = storefrontCode
+            
+            if defaults.value(forKey: "genres") == nil {
+                print("Genres not found")
+                return false 
+            }
             
             if preAuthorised /*&& deviceChecked*/ && appleMusicReady && storeID != nil {
                 return true
@@ -146,6 +200,66 @@ class StoreManager: NSObject {
             return nil
         }
         
+    }
+    
+    // insert here, getStorefrontCode()
+    private func getStorefrontCode(id: String, completion: @escaping (String?) -> ()) {
+        let urlString = "https://api.music.apple.com/v1/storefronts/\(id)"
+        guard let url = URL(string: urlString) else {
+            print("URL Formatting Error: \(urlString)")
+            return
+        }
+        
+        // Set up the request
+        let session = URLSession(configuration: URLSessionConfiguration.default, delegate: self, delegateQueue: OperationQueue.main)
+        
+        var dataTask = URLSessionDataTask()
+        var request = URLRequest(url: url)
+        let key = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlJKNlNXVTZMVDQifQ.eyJpc3MiOiJZQkNDVFdIMldXIiwiaWF0IjoxNTA4NDIyMzYxLCJleHAiOjE1MDk2MzE5NjF9.Zh9aN9EN0aBj9yCW087NN_v2JIj3socyNEmSun9VsTd4z369JooVm8ywZ0vIEby_FOmH6azvj4m-LglDAIlzAg"
+
+        request.addValue(key, forHTTPHeaderField: "Authorization")
+        request.httpMethod = "GET"
+        request.timeoutInterval = 60
+        
+        // Debug
+        print(urlString)
+        
+        // Send the request
+        dataTask = session.dataTask(with: request, completionHandler: { (data, response, error) in
+            if error != nil {
+                print("An error may have occurred")
+            } else {
+                let httpResponse = response as! HTTPURLResponse
+                if httpResponse.statusCode != 200 {
+                    let dataString = String.init(data: data!, encoding: String.Encoding.utf8)
+                    print("Error - server returned \(httpResponse.statusCode). Error: \(dataString)")
+                    completion(nil)
+                } else {
+                    print("Received: \(data!)")
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String: AnyObject]
+                        //print(json)
+                        guard let id = (json["data"] as? [[String: AnyObject]])?.first!["id"] as? String else {
+                            print("Error")
+                            return
+                        }
+                        completion(id)
+                    } catch let error {
+                        print("Error decoding data to JSON: \(error)")
+                    }
+                }
+            }
+        })
+        dataTask.resume()
+    }
+    
+    func storefrontCode() -> String? {
+        if storeCode != nil {
+            return storeCode
+        } else {
+            print("Store code is nil")
+            return "au"
+        }
     }
     
     private func checkCapability(completion: @escaping (Bool) -> ()) {

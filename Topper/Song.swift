@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class Song {
     private let artistID: String
@@ -15,6 +16,7 @@ class Song {
     private let trackName: String
     private let trackID: String
     private let artworkBaseURL: String
+    private var artworkImage: UIImage?
     private let trackLength: Int
     private let genre: String
     private var bgColor: String?
@@ -37,6 +39,22 @@ class Song {
         self.textColor2 = tc2
         self.textColor3 = tc3
         self.textColor4 = tc4
+    }
+    
+    func setImage(image: UIImage) {
+        self.artworkImage = image
+    }
+    
+    func checkImage() -> Bool {
+        if self.artworkImage == nil {
+            return false
+        } else {
+            return true 
+        }
+    }
+    
+    func getImage() -> UIImage? {
+        return self.artworkImage
     }
     
     func setColours(bg: String?, tc: String?, tc2: String?, tc3: String?, tc4: String?) {
@@ -79,12 +97,14 @@ class Song {
     }
     
     func getLargeArtworkURL() -> String {
-        let largeURL: NSString = NSString(string: artworkBaseURL)
-        return largeURL.replacingOccurrences(of: "100x100", with: "900x900")
+        var largeURL: String = artworkBaseURL
+        largeURL = largeURL.replacingOccurrences(of: "100x100", with: "900x900")
+        largeURL = largeURL.replacingOccurrences(of: "{w}x{h}", with: "900x900")
+        return largeURL
     }
     
     func getSmallArtworkURL() -> String {
-        return artworkBaseURL
+        return artworkBaseURL.replacingOccurrences(of: "{w}x{h}", with: "100x100")
     }
     
     func getAlbumName() -> String {

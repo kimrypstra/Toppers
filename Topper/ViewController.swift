@@ -23,9 +23,10 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
         case Recent
         case PreliminaryResults
         case Albums
+        case Genres
     }
-    
-    fileprivate let key = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlJKNlNXVTZMVDQifQ.eyJpc3MiOiJZQkNDVFdIMldXIiwiaWF0IjoxNTA2ODQxNDU5LCJleHAiOjE1MDgwNTEwNTl9.SOgTJxqX0eV_mWj675Ar4mi8-jFzXdez9vJ2VfajiXEHNuiplxOpgnqQrBAEps_fA-A5xegSEP-JQtC7rvFhdA"
+    // TODO: get rid of this, it should just be in the search manager
+    fileprivate let key = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlJKNlNXVTZMVDQifQ.eyJpc3MiOiJZQkNDVFdIMldXIiwiaWF0IjoxNTA4NDIyMzYxLCJleHAiOjE1MDk2MzE5NjF9.Zh9aN9EN0aBj9yCW087NN_v2JIj3socyNEmSun9VsTd4z369JooVm8ywZ0vIEby_FOmH6azvj4m-LglDAIlzAg"
     
     var shouldAnimateBackground = false
     var searchManager: SearchManager!
@@ -37,6 +38,7 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
     var preliminarySearchTerms: [String] = []
     var preliminaryArtistIDs: [String: String] = [:]
     var filteredSongList: [Song] = []
+    var genres: [String: String] = [:]
     var recentTableViewMode: tableViewMode = .Recent
     var searchMode: SearchMode = .Toppers
     @IBOutlet weak var recentLabel: UILabel!
@@ -45,6 +47,7 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     @IBOutlet weak var searchStackView: UIStackView!
     @IBOutlet weak var searchScrollView: UIScrollView!
+    @IBOutlet weak var recentTableViewToBottom: NSLayoutConstraint!
     
 // =================================================================================================================================================== //
     // Change to player view first, with search presented modally *
@@ -71,6 +74,30 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
         searchScrollView.delegate = self
         
         searchManager = SearchManager(storeManager: storeManager)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleKeyboardUp(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleKeyboardDown(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    func handleKeyboardUp(notification: Notification) {
+        print("Keyboard up")
+        print(notification.userInfo)
+        guard let keyboardBounds = notification.userInfo!["UIKeyboardBoundsUserInfoKey"]! as? CGRect else {
+            print("Error getting keyboard bounds")
+            return
+        }
+        recentTableViewToBottom.constant += keyboardBounds.height
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseIn, animations: {
+            self.view.layoutIfNeeded()
+        }, completion: nil)
+    }
+    
+    func handleKeyboardDown(notification: Notification) {
+        print("Keyboard down")
+        recentTableViewToBottom.constant = 20
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseIn, animations: {
+            self.view.layoutIfNeeded()
+        }, completion: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -100,6 +127,10 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
             recentSearchTerms.sort{$0.epoch > $1.epoch}
         }
         
+        if let genres = defaults.value(forKey: "genres") as? [String: String] {
+            self.genres = genres
+        }
+        
     }
     
     @IBAction func didTapOnSearchArea(_ sender: UITapGestureRecognizer) {
@@ -112,20 +143,60 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let scrollViewIndex = Int(searchScrollView.contentOffset.y / 50)
-        switch scrollViewIndex {
-        case 0:
-            searchMode = .Toppers
-        case 1:
-            searchMode = .Albums
-        default:
-            searchMode = .Toppers
+        if scrollView == searchScrollView {
+            let scrollViewIndex = Int(searchScrollView.contentOffset.y / 50)
+            switch scrollViewIndex {
+            case 0:
+                searchMode = .Toppers
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.recentLabel.alpha = 0
+                    self.recentTableView.alpha = 0
+                }, completion: { (_) in
+                    self.recentLabel.text = "Recent"
+                    self.recentTableViewMode = .Recent
+                    self.recentTableView.reloadData()
+                    UIView.animate(withDuration: 0.2, animations: {
+                        self.recentLabel.alpha = 1
+                        self.recentTableView.alpha = 1
+                    })
+                })
+                
+            case 1:
+                searchMode = .Albums
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.recentLabel.alpha = 0
+                    self.recentTableView.alpha = 0
+                }, completion: { (_) in
+                    self.recentLabel.text = "Recent"
+                    self.recentTableViewMode = .Recent
+                    self.recentTableView.reloadData()
+                    UIView.animate(withDuration: 0.2, animations: {
+                        self.recentLabel.alpha = 1
+                        self.recentTableView.alpha = 1
+                    })
+                })
+                
+            case 2:
+                searchMode = .Genres
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.recentLabel.alpha = 0
+                    self.recentTableView.alpha = 0
+                }, completion: { (_) in
+                    self.recentLabel.text = "Genres"
+                    self.recentTableViewMode = .Genres
+                    self.recentTableView.reloadData()
+                    UIView.animate(withDuration: 0.2, animations: {
+                        self.recentLabel.alpha = 1
+                        self.recentTableView.alpha = 1
+                    })
+                })
+                
+            default:
+                searchMode = .Toppers
+            }
+            print("Search Mode set to \(searchMode)")
         }
-        print("Search Mode set to \(searchMode)")
-    }
-    
-    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-
+        
     }
     
     @IBAction func searchButton(_ sender: UIButton) {
@@ -156,7 +227,10 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
                 self.albums = albums
                 self.recentTableView.reloadData()
             })
-
+        case .Genres:
+            recentLabel.text = "Genres"
+            recentTableViewMode = .Genres
+            recentTableView.reloadData()
         default:
             return
         }
@@ -188,6 +262,8 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
             }
         case .Albums:
             return albums.count
+        case .Genres:
+            return genres.count
         default:
             return 0
         }
@@ -202,10 +278,11 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
         case .PreliminaryResults:
             cell.textLabel?.text = preliminarySearchTerms[indexPath.row]
         case .Albums:
-            print(albums)
-            print(indexPath.row)
+            //print(albums)
+            //print(indexPath.row)
             cell.textLabel?.text = "\(albums[indexPath.row].name()) - \(albums[indexPath.row].artistsName())"
-            
+        case .Genres:
+            cell.textLabel?.text = "\(Array(genres.keys)[indexPath.row])"
             /*
             cell.imageView?.layer.cornerRadius = 5
             do {
@@ -256,6 +333,14 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
                 self.filteredSongList = songs
                 self.goBackToPlayerScreen()
             })
+        case .Genres:
+            searchManager.getChartForGenre(genre: genres[recentTableView.cellForRow(at: indexPath)!.textLabel!.text!]!, completion: { (songs) in
+                if songs != nil {
+                    self.filteredSongList = songs!
+                }
+                
+                self.goBackToPlayerScreen()
+            })
         }
         
         
@@ -291,6 +376,7 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
     
     func searchSuggestions() {
         print("Search...")
+        
         if recentTableViewMode != .PreliminaryResults {
             UIView.animate(withDuration: 0.5, animations: {
                 self.recentLabel.alpha = 0
@@ -305,8 +391,7 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
                 })
             })
         }
-        
-        
+
         guard queryField.text?.count != 0 else {return}
         
         let searchTerm = NSString(string: (queryField.text?.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed))!).replacingOccurrences(of: "%20", with: "+")
