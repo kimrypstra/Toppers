@@ -12,4 +12,5 @@ protocol NowPlayingDelegate: class {
     func didTriggerNextTrack()
     func didTriggerPreviousTrack()
     func didTriggerPausePlay()
+    
 }

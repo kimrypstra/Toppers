@@ -20,6 +20,7 @@
 		21928AD01F431443003140B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21928ACF1F431443003140B7 /* Assets.xcassets */; };
 		21928AD31F431443003140B7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 21928AD11F431443003140B7 /* LaunchScreen.storyboard */; };
 		21978DD61F6ABD5A009AD62C /* YLColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21978DD51F6ABD5A009AD62C /* YLColor.swift */; };
+		21ACADE21FE9FC0E00089311 /* String + Strip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ACADE11FE9FC0E00089311 /* String + Strip.swift */; };
 		21C244DE1F95988B0006CC18 /* NowPlayingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C244DD1F95988B0006CC18 /* NowPlayingDelegate.swift */; };
 		21C48A771F550601004F888B /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C48A761F550601004F888B /* StoreManager.swift */; };
 		21C48A791F5598DC004F888B /* TopperTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C48A781F5598DC004F888B /* TopperTextField.swift */; };
@@ -44,6 +45,7 @@
 		21928AD21F431443003140B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		21928AD41F431443003140B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		21978DD51F6ABD5A009AD62C /* YLColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YLColor.swift; sourceTree = "<group>"; };
+		21ACADE11FE9FC0E00089311 /* String + Strip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + Strip.swift"; sourceTree = "<group>"; };
 		21C244DD1F95988B0006CC18 /* NowPlayingDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingDelegate.swift; sourceTree = "<group>"; };
 		21C48A761F550601004F888B /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
 		21C48A781F5598DC004F888B /* TopperTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopperTextField.swift; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 			children = (
 				21928AC81F431443003140B7 /* AppDelegate.swift */,
 				21928ACA1F431443003140B7 /* ViewController.swift */,
+				21ACADE11FE9FC0E00089311 /* String + Strip.swift */,
 				21F52AA41F57A2E700C736EE /* PlayerViewController.swift */,
 				21928ACC1F431443003140B7 /* Main.storyboard */,
 				212B99861F93246700794EF9 /* NowPlayingCard.swift */,
@@ -188,6 +191,7 @@
 			files = (
 				21C48A771F550601004F888B /* StoreManager.swift in Sources */,
 				21C244DE1F95988B0006CC18 /* NowPlayingDelegate.swift in Sources */,
+				21ACADE21FE9FC0E00089311 /* String + Strip.swift in Sources */,
 				21928ACB1F431443003140B7 /* ViewController.swift in Sources */,
 				21928AC91F431443003140B7 /* AppDelegate.swift in Sources */,
 				217081AC1F6E7EDA00DBE94C /* UpNextViewController.swift in Sources */,
@@ -321,6 +325,7 @@
 		21928AD81F431443003140B7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -331,12 +336,14 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		21928AD91F431443003140B7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -347,6 +354,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

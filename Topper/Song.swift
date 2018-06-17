@@ -66,22 +66,26 @@ class Song {
     }
     
     func coloursAreSet() -> Bool {
-        if self.bgColor != nil {
+        if self.bgColor != nil && self.textColor != nil {
             return true
         } else {
             return false 
         }
     }
     
-    func getColours() -> [String: String?] {
-        let artwork = [
-            "bg" : self.bgColor,
-            "tc" : self.textColor,
-            "tc2" : self.textColor2,
-            "tc3" : self.textColor3,
-            "tc4" : self.textColor4
-        ]
-        return artwork
+    func getColours() -> [String: String]? {
+        if self.coloursAreSet() {
+            let artwork = [
+                "bg" : self.bgColor!,
+                "tc" : self.textColor!,
+                "tc2" : self.textColor2!,
+                "tc3" : self.textColor3!,
+                "tc4" : self.textColor4!
+            ]
+            return artwork
+        } else {
+            return nil
+        }
     }
     
     func getTrackName() -> String {

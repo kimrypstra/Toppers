@@ -27,6 +27,33 @@ class NowPlayingCard: UIView, UIGestureRecognizerDelegate {
     @IBOutlet weak var backgroundViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var backgroundViewWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var shadowView: UIView!
+    @IBOutlet weak var trackInfoStackViewCenterConstraint: NSLayoutConstraint!
+    
+    enum ScrollDirection: CGFloat {
+        case Previous = 20
+        case Next = -20
+        case None = 0
+    }
+    var scrollType: ScrollDirection = .None
+    
+    let maxInfoStackViewOffset: CGFloat = 20
+    var cardScrollViewOffsetPercent: CGFloat? {
+        didSet {
+            print("didSet")
+            guard cardScrollViewOffsetPercent != nil else {print("No offset percent");return}
+            guard trackInfoStackViewCenterConstraint != nil else {print("No center constraint");return}
+            print("Offset Percentage: \(cardScrollViewOffsetPercent)")
+            
+            trackInfoStackViewCenterConstraint.constant = maxInfoStackViewOffset * (cardScrollViewOffsetPercent! * scrollType.rawValue)
+        }
+    }
+
+/*
+- We need to figure out the scroll direction
+- If it's next track, we need to set the stack view offset to 20, then as the scroll view scrolls reduce that to zero
+- if it's previous track, we need to set the stack view offset to -20, then as the scroll view scrolls reduce it to zero
+*/
+    
     
     var paused = false
     var delegate: NowPlayingDelegate!
@@ -85,8 +112,9 @@ class NowPlayingCard: UIView, UIGestureRecognizerDelegate {
     }
     
     func setBackgroundColour(color: UIColor) {
+        print("Background set with colour whose alpha component is: \(color.cgColor.alpha)")
         self.backgroundView.backgroundColor = color
-        //self.shadowView.backgroundColor = color.withAlphaComponent(0.5)
+        
     }
     
     func toggleShrink() {
@@ -96,7 +124,7 @@ class NowPlayingCard: UIView, UIGestureRecognizerDelegate {
             backgroundViewWidthConstraint.constant -= 20
             backgroundViewHeightConstraint.constant -= 20
             UIView.animate(withDuration: 0.8, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: .curveEaseIn, animations: {
-                self.desaturatedAlbumArtImageView.alpha = 0.75
+                self.desaturatedAlbumArtImageView.alpha = 0.5
                 self.layoutIfNeeded()
             }, completion: nil)
             
@@ -157,18 +185,22 @@ class NowPlayingCard: UIView, UIGestureRecognizerDelegate {
     }
     
     func nextTrack() {
+        scrollType = .Next
         delegate.didTriggerNextTrack()
     }
     
     func prevTrack() {
+        scrollType = .Previous
         delegate.didTriggerPreviousTrack()
     }
     
     func resetCard(fast: Bool) {
         if fast {
+            scrollType = .None
             draggedDistance = nil
             firstTouchLocation = nil
         } else {
+            scrollType = .None
             skipTrackTriggered = false
             draggedDistance = nil
             firstTouchLocation = nil

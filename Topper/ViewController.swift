@@ -26,7 +26,7 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
         case Genres
     }
     // TODO: get rid of this, it should just be in the search manager
-    fileprivate let key = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlJKNlNXVTZMVDQifQ.eyJpc3MiOiJZQkNDVFdIMldXIiwiaWF0IjoxNTA4NDIyMzYxLCJleHAiOjE1MDk2MzE5NjF9.Zh9aN9EN0aBj9yCW087NN_v2JIj3socyNEmSun9VsTd4z369JooVm8ywZ0vIEby_FOmH6azvj4m-LglDAIlzAg"
+    fileprivate let key = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlJKNlNXVTZMVDQifQ.eyJpc3MiOiJZQkNDVFdIMldXIiwiaWF0IjoxNTI5MjM4NjI0LCJleHAiOjE1MzY0OTYyMjR9.HZZ-Yy1ABHkxxZ6TQnTjOV_EiQnNTUss3-t8j8gvMmjthrw6Zk0fHgGCYvMRFSAZ4LGM9_NOrF_1pfXruEQ33Q"
     
     var shouldAnimateBackground = false
     var searchManager: SearchManager!
@@ -82,7 +82,7 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
     func handleKeyboardUp(notification: Notification) {
         print("Keyboard up")
         print(notification.userInfo)
-        guard let keyboardBounds = notification.userInfo!["UIKeyboardBoundsUserInfoKey"]! as? CGRect else {
+        guard let keyboardBounds = notification.userInfo!["UIKeyboardFrameEndUserInfoKey"]! as? CGRect else {
             print("Error getting keyboard bounds")
             return
         }
@@ -101,15 +101,18 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        UIView.animate(withDuration: 0.5, animations: {
-            self.searchScrollView.contentOffset = CGPoint(x: 0, y: 50)
-        }) { (_) in
+        let defaults = UserDefaults()
+        if defaults.value(forKey: "searchViewDemoComplete") as? Bool != true {
+            defaults.set(true, forKey: "searchViewDemoComplete")
             UIView.animate(withDuration: 0.5, animations: {
-                self.searchScrollView.contentOffset = CGPoint.zero
-            })
-            
+                self.searchScrollView.contentOffset = CGPoint(x: 0, y: 50)
+            }) { (_) in
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.searchScrollView.contentOffset = CGPoint.zero
+                })
+            }
         }
-
+        queryField.becomeFirstResponder()
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -203,7 +206,7 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
         // Get the search mode from the scrollView position
         let scrollViewIndex = Int(searchScrollView.contentOffset.y / 50)
         print("Search set to page: \(scrollViewIndex)")
-        
+        let queryText = queryField.text
         switch searchMode {
         case .Toppers:
             findArtistID(name: queryField.text!) { (artistID) in
@@ -425,7 +428,7 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
                 if httpResponse.statusCode != 200 {
                     print("Error - server returned \(httpResponse.statusCode). Error: \(data!)")
                     let dataString = String.init(data: data!, encoding: String.Encoding.utf8)
-                    print(dataString)
+                    print("Error reorted: \(dataString)")
                     self.preliminarySearchTerms.removeAll()
                     self.recentTableView.reloadData()
                 } else {

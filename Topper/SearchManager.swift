@@ -7,10 +7,11 @@
 //
 
 import Foundation
+import UIKit
 
 class SearchManager: NSObject, URLSessionDelegate {
 
-    fileprivate let key = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlJKNlNXVTZMVDQifQ.eyJpc3MiOiJZQkNDVFdIMldXIiwiaWF0IjoxNTA4NDIyMzYxLCJleHAiOjE1MDk2MzE5NjF9.Zh9aN9EN0aBj9yCW087NN_v2JIj3socyNEmSun9VsTd4z369JooVm8ywZ0vIEby_FOmH6azvj4m-LglDAIlzAg"
+    fileprivate let key = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlJKNlNXVTZMVDQifQ.eyJpc3MiOiJZQkNDVFdIMldXIiwiaWF0IjoxNTI5MjM4NjI0LCJleHAiOjE1MzY0OTYyMjR9.HZZ-Yy1ABHkxxZ6TQnTjOV_EiQnNTUss3-t8j8gvMmjthrw6Zk0fHgGCYvMRFSAZ4LGM9_NOrF_1pfXruEQ33Q"
 
     
     var storeManager: StoreManager!

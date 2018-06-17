@@ -32,6 +32,12 @@ class UpNextTableViewCell: UITableViewCell {
         self.artistName.textColor = color 
     }
     
+    func setArtistMode(isArtist: Bool) {
+        if isArtist {
+            albumArt.layer.cornerRadius = albumArt.frame.width / 2
+        }
+    }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
