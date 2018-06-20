@@ -1,3 +1,5 @@
+<img src="https://github.com/kimrypstra/Toppers/blob/master/Reversed_Curved.png" alt="Unitrans Logo" width="200px"/>
+
 # Toppers
 ### An Apple Music client
 
@@ -8,6 +10,9 @@ Toppers is in early development and isn't suitable for release yet, although mos
 
 ### UI
 Toppers presents a minimal user interface, with only the artwork, song information, and next track showing - time remaining, media controls, and volume are not surfaced. Instead of buttons, gestures are used to play, pause, and skip tracks.
+
+<img src="https://github.com/kimrypstra/Toppers/blob/master/IMG_0765.JPG" alt="Unitrans Logo" width="200px"/> <img src="https://github.com/kimrypstra/Toppers/blob/master/IMG_0767.JPG" alt="Unitrans Logo" width="200px"/> <img src="https://github.com/kimrypstra/Toppers/blob/master/IMG_0768.JPG" alt="Unitrans Logo" width="200px"/>
+
 
 ### Dependencies
 Toppers uses the iTunes Search API to get an artist's top songs and some information for each track, then uses the Apple Music API to get more information and play the full version using MusicKit. Here are some of the tasks using each API:
@@ -32,8 +37,3 @@ The Apple Music API does not sort songs by popularity and the iTunes Search API 
 5. When the user taps on a result, step 2 is carried out using that name.
 6. Music stars playing, with the playlist sorted from most to least popular 
 7. Song metadata (artwork, colours etc.) are retreived from the Apple Music API
-
-### Monetisation 
-The terms of the Apple Music API and the iTunes Search API prevent direct monetisation. Toppers will probably ship with a tip jar style business model. 
-
-###
