@@ -194,7 +194,7 @@ class PlayerViewController: UIViewController, UpNextDelegate, UITableViewDataSou
         print("tapped background")
     }
     
-    // MARK:- TableView
+    // MARK:- TableView (NextTrack list)
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if upNextExpanded {
             return songList.count - 2
@@ -211,6 +211,10 @@ class PlayerViewController: UIViewController, UpNextDelegate, UITableViewDataSou
             cell.songTitle.text = song.getTrackName()
             cell.albumArt.image = song.getImage()
             cell.albumName.text = song.getAlbumName()
+            if let textColour = songList[musicPlayer.indexOfNowPlayingItem].getColours()?["tc"] {
+                cell.setTextColor(color: UIColor(hexString: textColour))
+            }
+            
             return cell
         } else {
             let cell = upNextTableView.dequeueReusableCell(withIdentifier: "upNextTableViewCell", for: indexPath)
