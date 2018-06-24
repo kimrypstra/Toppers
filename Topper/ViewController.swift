@@ -207,35 +207,36 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
         let scrollViewIndex = Int(searchScrollView.contentOffset.y / 50)
         print("Search set to page: \(scrollViewIndex)")
         let queryText = queryField.text
+        
         switch searchMode {
-        case .Toppers:
-            findArtistID(name: queryField.text!) { (artistID) in
-                print("ID: \(artistID)")
-            }
-        case .Albums:
-            recentLabel.text = "Albums"
-            recentTableViewMode = .Albums
-            searchManager.searchForAlbum(query: queryField.text!, completion: { (albums) in
-                print("Rec'd \(albums.count) albums")
-                for album in albums {
-                    if album.name().lowercased() == self.queryField.text?.lowercased() {
-                        // we have an exact match
-                        self.searchManager.getTracksForAlbum(id: album.id(), completion: { (songs) in
-                            self.filteredSongList = songs
-                            self.goBackToPlayerScreen()
-                        })
-                        break 
-                    }
+            case .Toppers:
+                findArtistID(name: queryField.text!) { (artistID) in
+                    print("ID: \(artistID)")
                 }
-                self.albums = albums
-                self.recentTableView.reloadData()
-            })
-        case .Genres:
-            recentLabel.text = "Genres"
-            recentTableViewMode = .Genres
-            recentTableView.reloadData()
-        default:
-            return
+            case .Albums:
+                recentLabel.text = "Albums"
+                recentTableViewMode = .Albums
+                searchManager.searchForAlbum(query: queryField.text!, completion: { (albums) in
+                    print("Rec'd \(albums.count) albums")
+                    for album in albums {
+                        if album.name().lowercased() == self.queryField.text?.lowercased() {
+                            // we have an exact match
+                            self.searchManager.getTracksForAlbum(id: album.id(), completion: { (songs) in
+                                self.filteredSongList = songs
+                                self.goBackToPlayerScreen()
+                            })
+                            break
+                        }
+                    }
+                    self.albums = albums
+                    self.recentTableView.reloadData()
+                })
+            case .Genres:
+                recentLabel.text = "Genres"
+                recentTableViewMode = .Genres
+                recentTableView.reloadData()
+            default:
+                return
         }
         
         
@@ -274,34 +275,27 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "recentCell", for: indexPath)
-        
         switch recentTableViewMode {
+            
         case .Recent:
-            cell.textLabel?.text = recentSearchTerms[indexPath.row].name
-        case .PreliminaryResults:
-            cell.textLabel?.text = preliminarySearchTerms[indexPath.row]
-        case .Albums:
-            //print(albums)
-            //print(indexPath.row)
-            cell.textLabel?.text = "\(albums[indexPath.row].name()) - \(albums[indexPath.row].artistsName())"
-        case .Genres:
-            cell.textLabel?.text = "\(Array(genres.keys)[indexPath.row])"
-            /*
-            cell.imageView?.layer.cornerRadius = 5
-            do {
-                cell.imageView?.image = UIImage(data: try Data.init(contentsOf: URL(string: albums[indexPath.row].artworkURL())!))
-            } catch let error {
-                print("Error: \(error)")
+            if recentSearchTerms.count > 0 {
+                cell.textLabel?.text = recentSearchTerms[indexPath.row].name
             }
-            */
             
+        case .PreliminaryResults:
+            if preliminarySearchTerms.count > 0 {
+                cell.textLabel?.text = preliminarySearchTerms[indexPath.row]
+            }
             
-        }
-        
-        if recentTableViewMode == .Recent {
-            cell.textLabel?.text = recentSearchTerms[indexPath.row].name
-        } else if recentTableViewMode == .PreliminaryResults {
-            cell.textLabel?.text = preliminarySearchTerms[indexPath.row]
+        case .Albums:
+            if albums.count > 0 {
+                cell.textLabel?.text = "\(albums[indexPath.row].name()) - \(albums[indexPath.row].artistsName())"
+            }
+            
+        case .Genres:
+            if genres.count > 0 {
+                cell.textLabel?.text = "\(Array(genres.keys)[indexPath.row])"
+            }
         }
         
         cell.layoutMargins = UIEdgeInsets.zero
