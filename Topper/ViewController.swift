@@ -80,8 +80,8 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
     }
     
     func handleKeyboardUp(notification: Notification) {
-        print("Keyboard up")
-        print(notification.userInfo)
+        //print("Keyboard up")
+        //print(notification.userInfo)
         guard let keyboardBounds = notification.userInfo!["UIKeyboardFrameEndUserInfoKey"]! as? CGRect else {
             print("Error getting keyboard bounds")
             return
@@ -93,7 +93,7 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
     }
     
     func handleKeyboardDown(notification: Notification) {
-        print("Keyboard down")
+        //print("Keyboard down")
         recentTableViewToBottom.constant = 20
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseIn, animations: {
             self.view.layoutIfNeeded()
@@ -137,7 +137,7 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
     }
     
     @IBAction func didTapOnSearchArea(_ sender: UITapGestureRecognizer) {
-        print("TAP!")
+        //print("TAP!")
         self.queryField.becomeFirstResponder()
     }
     
@@ -197,7 +197,7 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
             default:
                 searchMode = .Toppers
             }
-            print("Search Mode set to \(searchMode)")
+            //print("Search Mode set to \(searchMode)")
         }
         
     }
@@ -205,19 +205,19 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
     @IBAction func searchButton(_ sender: UIButton) {
         // Get the search mode from the scrollView position
         let scrollViewIndex = Int(searchScrollView.contentOffset.y / 50)
-        print("Search set to page: \(scrollViewIndex)")
+        //print("Search set to page: \(scrollViewIndex)")
         let queryText = queryField.text
         
         switch searchMode {
             case .Toppers:
                 findArtistID(name: queryField.text!) { (artistID) in
-                    print("ID: \(artistID)")
+                    //print("ID: \(artistID)")
                 }
             case .Albums:
                 recentLabel.text = "Albums"
                 recentTableViewMode = .Albums
                 searchManager.searchForAlbum(query: queryField.text!, completion: { (albums) in
-                    print("Rec'd \(albums.count) albums")
+                    //print("Rec'd \(albums.count) albums")
                     for album in albums {
                         if album.name().lowercased() == self.queryField.text?.lowercased() {
                             // we have an exact match
@@ -261,7 +261,7 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
             case .Albums:
                 return preliminarySearchTerms.count 
             default:
-                print("Default search mode")
+                //print("Default search mode")
                 return 0
             }
         case .Albums:
@@ -352,9 +352,9 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
                 label.isHidden = true
             }
         } else {
-            print("Backspace...")
+            
             if textField.text!.characters.count - 1 <= 0 {
-                print("Here...")
+                
                 for label in searchStackView.arrangedSubviews {
                     label.isHidden = false
                 }
@@ -372,7 +372,7 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
     }
     
     func searchSuggestions() {
-        print("Search...")
+        
         
         if recentTableViewMode != .PreliminaryResults {
             UIView.animate(withDuration: 0.5, animations: {
@@ -407,9 +407,7 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
         request.addValue(key, forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
         request.timeoutInterval = 60
-        
-        // Debug
-        print(baseURL)
+
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
 
         // Send the request
@@ -426,7 +424,6 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
                     self.preliminarySearchTerms.removeAll()
                     self.recentTableView.reloadData()
                 } else {
-                    print("Received: \(data!)")
                     do {
                         guard let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String: AnyObject] else {
                             print("Error deserializing json string")
@@ -437,7 +434,7 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
                         
                         guard let terms = results["terms"] as? [String] else {print(results); return}
                         self.preliminarySearchTerms = terms
-                        print(self.preliminarySearchTerms)
+                        
                         self.recentTableViewMode = .PreliminaryResults
                         self.recentTableView.reloadData()
                         
@@ -513,9 +510,6 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
         request.httpMethod = "GET"
         request.timeoutInterval = 60
         
-        // Debug
-        print(urlString)
-        
         // Send the request
         dataTask = session.dataTask(with: request, completionHandler: { (data, response, error) in
             if error != nil {
@@ -525,16 +519,16 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
                 if httpResponse.statusCode != 200 {
                     print("Error - server returned \(httpResponse.statusCode)")
                 } else {
-                    print("Received: \(data!)")
+                    
                     do {
                         let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String: AnyObject]
                         guard let results = json["results"] as? [[String: AnyObject]] else {print("Error 1"); return}
                         
                         if results.count == 1 {
-                            print(json)
+                            
                             guard let name = results.first!["artistName"] as? String else {print(results); return}
                             guard let artistID = results.first!["artistId"] as? Int else {print(results); return}
-                            print("Exact match found:\nName: \(name)\nartistID: \(String(artistID))")
+                            
                             // Add the exact match to previous searches if it's not already there
                             self.addArtistToPreviousSearches(artistName: name, artistID: String(artistID))
                             // If the name matches a lowercased string of the query, skip straight into the search
@@ -543,7 +537,7 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
                             
                         } else {
                             // Multiple results
-                            print(json)
+                            
                             
                             self.preliminarySearchTerms.removeAll()
                             for result in results {
@@ -597,9 +591,6 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
         request.httpMethod = "GET"
         request.timeoutInterval = 60
         
-        // Debug
-        print(urlString)
-        
         // Send the request
         dataTask = session.dataTask(with: request, completionHandler: { (data, response, error) in
             if error != nil {
@@ -612,7 +603,6 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
                     print("Received: \(data!)")
                     do {
                         let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String: AnyObject]
-                        print(json)
                         guard let results = json["results"] as? [[String: AnyObject]] else {
                             print("Error")
                             return
@@ -623,7 +613,6 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
                         for item in results {
                             guard item["isStreamable"] as? Int == 1 else {continue}
                             if let name = item["trackName"] {
-                                print(name)
                                 let song = Song(artistID: String(describing: item["artistId"]!), artistName: item["artistName"] as! String, albumName: item["collectionName"] as! String, trackName: item["trackName"] as! String, trackID: String(describing: item["trackId"]!), artworkBaseURL: item["artworkUrl100"] as! String, trackLength: item["trackTimeMillis"] as! Int, genre: item["primaryGenreName"] as! String, bg: nil, tc: nil, tc2: nil, tc3: nil, tc4: nil)
                                 songArray.append(song)
                             }
@@ -638,8 +627,8 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
                         print("Removed \(songArray.count - self.filteredSongList.count) songs")
                         // - Go back to player, passing in a list of Song objects (name, id, artworkURL etc)
                         
+                        // Set the colours for the first track 
                         self.searchManager.getInfoForSong(id: self.filteredSongList.first!.getTrackID(), completion: { (artworkDict) in
-                            print("Next...")
                             self.filteredSongList.first!.setColours(bg: artworkDict["bgColor"] as? String, tc: artworkDict["textColor1"] as? String, tc2: artworkDict["textColor2"] as? String, tc3: artworkDict["textColor3"] as? String, tc4: artworkDict["textColor4"] as? String)
                             self.goBackToPlayerScreen()
                         })
@@ -687,7 +676,7 @@ class ViewController: UIViewController, URLSessionDelegate, UITableViewDelegate,
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier! {
         case "searchToPlayer":
-            print("Segueing...")
+            //print("Segueing...")
             guard let destination = segue.destination as? PlayerViewController else {print("Error segueing");return}
             destination.songList = filteredSongList
         default:

@@ -222,7 +222,7 @@ class StoreManager: NSObject, URLSessionDelegate {
         request.timeoutInterval = 60
         
         // Debug
-        print(urlString)
+        //print(urlString)
         
         // Send the request
         dataTask = session.dataTask(with: request, completionHandler: { (data, response, error) in
@@ -235,7 +235,7 @@ class StoreManager: NSObject, URLSessionDelegate {
                     print("Error - server returned \(httpResponse.statusCode). Error: \(dataString)")
                     completion(nil)
                 } else {
-                    print("Received: \(data!)")
+                    //print("Received: \(data!)")
                     do {
                         let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String: AnyObject]
                         //print(json)

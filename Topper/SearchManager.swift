@@ -50,7 +50,7 @@ class SearchManager: NSObject, URLSessionDelegate {
         request.timeoutInterval = 60
         
         // Debug
-        print(urlString)
+        //print(urlString)
         
         // Send the request
         dataTask = session.dataTask(with: request, completionHandler: { (data, response, error) in
@@ -61,10 +61,10 @@ class SearchManager: NSObject, URLSessionDelegate {
                 if httpResponse.statusCode != 200 {
                     print("Error - server returned \(httpResponse.statusCode). Error: \(data!)")
                     let dataString = String.init(data: data!, encoding: String.Encoding.utf8)
-                    print(dataString)
+                    //print(dataString)
                     completion([])
                 } else {
-                    print("Received: \(data!)")
+                    //print("Received: \(data!)")
                     do {
                         let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String: AnyObject]
                         //print(json)
@@ -74,7 +74,7 @@ class SearchManager: NSObject, URLSessionDelegate {
                             return
                         }
                         
-                        print(results)
+                        //print(results)
                         var songs: [Song] = []
                         
                         for item in results {
@@ -126,7 +126,7 @@ class SearchManager: NSObject, URLSessionDelegate {
         request.timeoutInterval = 60
         
         // Debug
-        print(urlString)
+        //print(urlString)
         
         // Send the request
         dataTask = session.dataTask(with: request, completionHandler: { (data, response, error) in
@@ -137,7 +137,7 @@ class SearchManager: NSObject, URLSessionDelegate {
                 if httpResponse.statusCode != 200 {
                     print("Error - server returned \(httpResponse.statusCode). Error: \(data!)")
                     let dataString = String.init(data: data!, encoding: String.Encoding.utf8)
-                    print(dataString)
+                    //print(dataString)
                     completion([])
                 } else {
                     print("Received: \(data!)")
@@ -196,7 +196,7 @@ class SearchManager: NSObject, URLSessionDelegate {
         request.timeoutInterval = 60
         
         // Debug
-        print(urlString)
+        //print(urlString)
         
         // Send the request
         dataTask = session.dataTask(with: request, completionHandler: { (data, response, error) in
@@ -207,10 +207,10 @@ class SearchManager: NSObject, URLSessionDelegate {
                 if httpResponse.statusCode != 200 {
                     print("Error - server returned \(httpResponse.statusCode). Error: \(data!)")
                     let dataString = String.init(data: data!, encoding: String.Encoding.utf8)
-                    print(dataString)
+                    //print(dataString)
                     completion([:])
                 } else {
-                    print("Received: \(data!)")
+                    //print("Received: \(data!)")
                     do {
                         let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String: AnyObject]
                         //print(json)
@@ -221,13 +221,13 @@ class SearchManager: NSObject, URLSessionDelegate {
                         
                         guard let artwork = results["artwork"] as? [String: AnyObject] else {
                             print("Error 2")
-                            print(results)
+                            //print(results)
                             return
                         }
-                        print(artwork)
+                        //print(artwork)
                         completion(artwork)
                     } catch let error {
-                        print("Error decoding data to JSON: \(error)")
+                        //print("Error decoding data to JSON: \(error)")
                     }
                 }
             }
@@ -265,7 +265,7 @@ class SearchManager: NSObject, URLSessionDelegate {
         request.timeoutInterval = 60
         
         // Debug
-        print(urlString)
+        //print(urlString)
         
         // Do the thing
         dataTask = session.dataTask(with: request, completionHandler: { (data, response, error) in
@@ -278,11 +278,11 @@ class SearchManager: NSObject, URLSessionDelegate {
                 if httpResponse.statusCode != 200 {
                     print("Error - server returned \(httpResponse.statusCode). Error: \(data!)")
                     let dataString = String.init(data: data!, encoding: String.Encoding.utf8)
-                    print(dataString)
+                    //print(dataString)
                     completion(nil)
                 } else {
                     // Handle the data
-                    print("Received: \(data!)")
+                    //print("Received: \(data!)")
                     do {
                         let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String: AnyObject]
                         //print(json)
@@ -312,7 +312,7 @@ class SearchManager: NSObject, URLSessionDelegate {
     
     func getChartForGenre(genre: String, completion: @escaping ([Song]?) -> ()) {
         //getAllChartTypes()
-        print("Rec'd req for genre: \(genre)")
+        //print("Rec'd req for genre: \(genre)")
         // Get the store code
         guard let storeCode = Locale.current.regionCode?.lowercased() else {
             print("Problem getting locale")
@@ -341,7 +341,7 @@ class SearchManager: NSObject, URLSessionDelegate {
         request.timeoutInterval = 60
         
         // Debug
-        print(urlString)
+        //print(urlString)
         
         // Do the thing
         dataTask = session.dataTask(with: request, completionHandler: { (data, response, error) in
@@ -354,11 +354,11 @@ class SearchManager: NSObject, URLSessionDelegate {
                 if httpResponse.statusCode != 200 {
                     print("Error - server returned \(httpResponse.statusCode). Error: \(data!)")
                     let dataString = String.init(data: data!, encoding: String.Encoding.utf8)
-                    print(dataString)
+                    //print(dataString)
                     completion(nil)
                 } else {
                     // Handle the data
-                    print("Received: \(data!)")
+                    //print("Received: \(data!)")
                     do {
                         let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String: AnyObject]
                         //print(json)
@@ -431,7 +431,7 @@ class SearchManager: NSObject, URLSessionDelegate {
         request.timeoutInterval = 60
         
         // Debug
-        print(urlString)
+        //print(urlString)
         
         // Do the thing
         dataTask = session.dataTask(with: request, completionHandler: { (data, response, error) in
@@ -444,14 +444,14 @@ class SearchManager: NSObject, URLSessionDelegate {
                 if httpResponse.statusCode != 200 {
                     print("Error - server returned \(httpResponse.statusCode). Error: \(data!)")
                     let dataString = String.init(data: data!, encoding: String.Encoding.utf8)
-                    print(dataString)
+                    //print(dataString)
                     //completion(nil)
                 } else {
                     // Handle the data
-                    print("Received: \(data!)")
+                    //print("Received: \(data!)")
                     do {
                         let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String: AnyObject]
-                        print("** CHARTS ** \n \(json)")
+                        //print("** CHARTS ** \n \(json)")
                     } catch let error {
                         print("Error decoding data to JSON: \(error)")
                     }
