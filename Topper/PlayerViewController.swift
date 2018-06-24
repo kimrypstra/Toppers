@@ -253,10 +253,13 @@ class PlayerViewController: UIViewController, UpNextDelegate, UITableViewDataSou
         guard let next = nowPlayingStackView.arrangedSubviews[2] as? NowPlayingCard else {print("No Next");return}
         guard scrollView.contentSize.width > 0 else {print("scrollView zero");return}
         let offsetPercentage = scrollView.contentOffset.x / scrollView.contentSize.width
-        current.cardScrollViewOffsetPercent = offsetPercentage
-        next.cardScrollViewOffsetPercent = offsetPercentage
+        //current.cardScrollViewOffsetPercent = offsetPercentage
+        //next.cardScrollViewOffsetPercent = offsetPercentage
         
+        // Set the player colours
+        setPlayerColours()
     }
+    
     
     // MARK:- GestureRecog
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -286,7 +289,6 @@ class PlayerViewController: UIViewController, UpNextDelegate, UITableViewDataSou
         let offset = CGPoint(x: 0, y: 0)
         guard let previousCard = nowPlayingStackView.arrangedSubviews[0] as? NowPlayingCard else {return}
         previousCard.scrollType = .Previous
-        previousCard.trackInfoStackViewCenterConstraint.constant = -20
         
         guard let card = nowPlayingStackView.arrangedSubviews[1] as? NowPlayingCard else {return}
         // Check if it is GOING to skip to previous or just to the start
@@ -311,7 +313,6 @@ class PlayerViewController: UIViewController, UpNextDelegate, UITableViewDataSou
         let offset = CGPoint(x: scrollView.contentSize.width - scrollView.frame.width, y: 0)
         guard let nextCard = nowPlayingStackView.arrangedSubviews[2] as? NowPlayingCard else {return}
         nextCard.scrollType = .Previous // What??
-        nextCard.trackInfoStackViewCenterConstraint.constant = -20
         DispatchQueue.main.async {
             self.scrollView.setContentOffset(offset, animated: true)
             // Once the scrollView is done, the cards are reset in scrollViewDidScroll
@@ -376,21 +377,28 @@ class PlayerViewController: UIViewController, UpNextDelegate, UITableViewDataSou
         for song in songList {
             upcomingSongs.append(song.getTrackID())
         }
-
+        
+        // Get the artwork and colours
         self.getAllAlbumImages()
-        // Get all song colours should have a completion handler in which player colours are actually set
-        self.getAllSongColours()
-        //setPlayerColours()
-        updateSongInfoForSong(song: list.first!)
+        self.getAllSongColours(completion: {
+            print("Setting colours...")
+            self.setPlayerColours()
+        })
+        
+        // Update the card
+        setCardToDisplayInformationFor(song: list.first!)
+        
+        // Set up the queue
         descriptor = MPMusicPlayerStoreQueueDescriptor.init(storeIDs: [])
         musicPlayer.setQueueWith(descriptor)
         descriptor = MPMusicPlayerStoreQueueDescriptor(storeIDs: upcomingSongs)
         musicPlayer.setQueueWith(descriptor)
-
+        
+        // Play
         playPause(forcePlay: true)
     }
     
-    func updateSongInfoForSong(song: Song) {
+    func setCardToDisplayInformationFor(song: Song) {
         guard let card = nowPlayingStackView.arrangedSubviews[1] as? NowPlayingCard else {print("Error with prev playing card"); return}
             card.trackNameLabel.text = song.getTrackName()
             card.artistNameLabel.text = song.getArtistName()
@@ -434,24 +442,34 @@ class PlayerViewController: UIViewController, UpNextDelegate, UITableViewDataSou
         }
     }
     
-    func getAllSongColours(completion: () -> ()) {
+    func getAllSongColours(completion: @escaping () -> ()) {
         // For each song in the song list, get and fill in the colours
         print("Getting all song colours...")
+        let group = DispatchGroup()
         for song in songList {
+            
             // First, check if the song colours are already set
             if song.coloursAreSet() == false {
                 // If they aren't, get the colours
+                group.enter()
                 SearchManager(storeManager: storeManager).getInfoForSong(id: song.getTrackID(), completion: { (artwork) in
                     // Extract the colours
                     guard let bg = artwork["bgColor"] as? String, let tc = artwork["textColor1"] as? String, let tc2 = artwork["textColor2"] as? String, let tc3 = artwork["textColor3"] as? String, let tc4 = artwork["textColor4"] as? String else {
                         print("Colour error; setting black and white for everything")
                         song.setColours(bg: "#000000", tc: "#fce6c0", tc2: "#fce6c0", tc3: "#fce6c0", tc4: "#fce6c0")
+                        group.leave()
                         return
                     }
                     // Set the colours in the song object
                     song.setColours(bg: bg, tc: tc, tc2: tc2, tc3: tc3, tc4: tc4)
+                    
+                    group.leave()
                 })
             }
+            
+        }
+        group.notify(queue: DispatchQueue.main) {
+            completion()
         }
     }
 
@@ -668,7 +686,6 @@ class PlayerViewController: UIViewController, UpNextDelegate, UITableViewDataSou
                     print("Error getting now playing card")
                     return
                 }
-                
                 nextCard.setBackgroundColour(color: nextBGColor)
                 nextCard.setTextColour(color: nextTCColor)
             }
