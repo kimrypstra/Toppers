@@ -26,7 +26,6 @@
                 <outlet property="previousImage" destination="dPR-5c-3VR" id="N0T-AT-KAI"/>
                 <outlet property="shadowView" destination="6aq-rp-ecw" id="iUA-N0-1jZ"/>
                 <outlet property="tapRecog" destination="is2-9T-LH4" id="Woc-uh-jGJ"/>
-                <outlet property="trackInfoStackViewCenterConstraint" destination="ppH-Sg-hDf" id="8kv-oS-WvG"/>
                 <outlet property="trackNameLabel" destination="70D-6Q-wjQ" id="7eE-Bn-LBr"/>
             </connections>
         </placeholder>
@@ -126,7 +125,7 @@
                         <constraint firstItem="fxh-5m-CmF" firstAttribute="centerY" secondItem="eVe-0G-4Bs" secondAttribute="centerY" id="W7D-Ah-u80"/>
                         <constraint firstAttribute="bottom" secondItem="F8K-iz-EJM" secondAttribute="bottom" constant="16" id="a2i-b2-aFy"/>
                         <constraint firstItem="eVe-0G-4Bs" firstAttribute="width" secondItem="rjR-Ev-UWn" secondAttribute="width" constant="2" id="asG-WP-FxH"/>
-                        <constraint firstItem="F8K-iz-EJM" firstAttribute="centerX" secondItem="rjR-Ev-UWn" secondAttribute="centerX" id="ppH-Sg-hDf"/>
+                        <constraint firstItem="F8K-iz-EJM" firstAttribute="centerX" secondItem="eVe-0G-4Bs" secondAttribute="centerX" id="ppH-Sg-hDf"/>
                     </constraints>
                 </view>
             </subviews>

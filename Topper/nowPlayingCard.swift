@@ -27,7 +27,7 @@ class NowPlayingCard: UIView, UIGestureRecognizerDelegate {
     @IBOutlet weak var backgroundViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var backgroundViewWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var shadowView: UIView!
-    @IBOutlet weak var trackInfoStackViewCenterConstraint: NSLayoutConstraint!
+
     
     enum ScrollDirection: CGFloat {
         case Previous = 20
@@ -36,17 +36,17 @@ class NowPlayingCard: UIView, UIGestureRecognizerDelegate {
     }
     var scrollType: ScrollDirection = .None
     
-    let maxInfoStackViewOffset: CGFloat = 20
-    var cardScrollViewOffsetPercent: CGFloat? {
-        didSet {
-            print("didSet")
-            guard cardScrollViewOffsetPercent != nil else {print("No offset percent");return}
-            guard trackInfoStackViewCenterConstraint != nil else {print("No center constraint");return}
-            print("Offset Percentage: \(cardScrollViewOffsetPercent)")
-            
-            trackInfoStackViewCenterConstraint.constant = maxInfoStackViewOffset * (cardScrollViewOffsetPercent! * scrollType.rawValue)
-        }
-    }
+    let maxInfoStackViewOffset: CGFloat = 0
+//    var cardScrollViewOffsetPercent: CGFloat? {
+//        didSet {
+//            //print("didSet")
+//            guard cardScrollViewOffsetPercent != nil else {print("No offset percent");return}
+//            guard trackInfoStackViewCenterConstraint != nil else {print("No center constraint");return}
+//            //print("Offset Percentage: \(cardScrollViewOffsetPercent)")
+//
+//            //trackInfoStackViewCenterConstraint.constant = maxInfoStackViewOffset * (cardScrollViewOffsetPercent! * scrollType.rawValue)
+//        }
+//    }
 
 /*
 - We need to figure out the scroll direction
@@ -64,7 +64,7 @@ class NowPlayingCard: UIView, UIGestureRecognizerDelegate {
     var draggedDistance: CGFloat? = nil {
         didSet {
             if draggedDistance != nil {
-                //print(draggedDistance)
+
                 backgroundViewCenterConstraint.constant = draggedDistance!
                 if draggedDistance! > trackChangeTriggerDistance {
                     skipTrackTriggered = true
@@ -98,7 +98,7 @@ class NowPlayingCard: UIView, UIGestureRecognizerDelegate {
     
     @IBAction func didTapImage(_ sender: UITapGestureRecognizer) {
         delegate.didTriggerPausePlay()
-        print("tappa")
+        //print("tappa")
         
         
     }
@@ -112,7 +112,6 @@ class NowPlayingCard: UIView, UIGestureRecognizerDelegate {
     }
     
     func setBackgroundColour(color: UIColor) {
-        print("Background set with colour whose alpha component is: \(color.cgColor.alpha)")
         self.backgroundView.backgroundColor = color
         
     }
@@ -219,13 +218,13 @@ class NowPlayingCard: UIView, UIGestureRecognizerDelegate {
     func desaturatedImage(_from image: UIImage) -> UIImage? {
         let beginImage = CIImage(cgImage: image.cgImage!)
         guard let filter = CIFilter(name: "CIColorControls") else {
-            print("E2")
+            //print("E2")
             return nil
         }
         filter.setValue(beginImage, forKey: kCIInputImageKey)
         filter.setValue(0.0, forKey: kCIInputSaturationKey)
         guard let output = filter.outputImage else {
-            print("E3")
+            //print("E3")
             return nil
         }
         let context = CIContext(options: nil)
